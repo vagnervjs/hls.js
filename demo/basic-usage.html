@@ -2,21 +2,31 @@
 
   <head>
     <title>Hls.js demo - basic usage</title>
+    <style>
+      body {
+        padding: 0;
+        margin: 0;
+      }
+      video { width: 100%; }
+    </style>
   </head>
 
   <body>
-      <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+      <script src="../dist/hls.js"></script>
 
       <center>
-          <h1>Hls.js demo - basic usage</h1>
-          <video height="600" id="video" controls></video>
+          <video id="video" controls></video>
       </center>
 
       <script>
         if(Hls.isSupported()) {
           var video = document.getElementById('video');
-          var hls = new Hls();
-          hls.loadSource('https://video-dev.github.io/streams/x36xhzz/x36xhzz.m3u8');
+          var options = {
+            capLevelToPlayerSize: true
+          }
+          var hls = new Hls(options);
+          hls.loadSource('http://be.live.video.globoi.com/dvr/globo-rj/playlist.m3u8');
+          // hls.loadSource('http://be.live.video.dev.globoi.com/dvr/tvg2dev/playlist.m3u8');
           hls.attachMedia(video);
           hls.on(Hls.Events.MANIFEST_PARSED,function() {
             video.play();

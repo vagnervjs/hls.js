@@ -27,6 +27,7 @@ export var hlsDefaultConfig = {
   debug: false, // used by logger
   capLevelOnFPSDrop: false, // used by fps-controller
   capLevelToPlayerSize: false, // used by cap-level-controller
+  capLevelToPlayerSizePercent: 1, // used by cap-level-controller
   initialLiveManifestSize: 1, // used by stream-controller
   maxBufferLength: 30, // used by stream-controller
   maxBufferSize: 60 * 1000 * 1000, // used by stream-controller

@@ -38,6 +38,7 @@ class CapLevelController extends EventHandler {
     if (hls.config.capLevelToPlayerSize) {
       this.autoLevelCapping = Number.POSITIVE_INFINITY;
       this.levels = data.levels;
+      this.levels.forEach(l => console.log(l))
       hls.firstLevel = this.getMaxLevel(data.firstLevel);
       clearInterval(this.timer);
       this.timer = setInterval(this.detectPlayerSize.bind(this), 1000);
@@ -123,14 +124,39 @@ class CapLevelController extends EventHandler {
     // If we run through the loop without breaking, the media's dimensions are greater than every level, so default to
     // the max level
     let maxLevelIndex = levels.length - 1;
+    const percent = this.hls.config.capLevelToPlayerSizePercent;
+      debugger
 
     for (let i = 0; i < levels.length; i += 1) {
       const level = levels[i];
-      if ((level.width >= width || level.height >= height) && atGreatestBandiwdth(level, levels[i + 1])) {
+
+
+      if (((level.width * 1.1) >= width || (level.height * 1.1) >= height) && atGreatestBandiwdth(level, levels[i + 1])) {
         maxLevelIndex = i;
         break;
       }
     }
+
+    // for (let i = 0; i < levels.length; i += 1) {
+    //   const level = levels[i];
+    //   const percent = this.hls.config.capLevelToPlayerSizePercent;
+    //   const levelWidth = level.width * percent;
+    //   const levelHeight = level.height * percent;
+    //   const sizeChanged = levelWidth >= width || levelHeight >= height;
+    //   console.log(percent, levelWidth, levelHeight)
+    //   if (sizeChanged && atGreatestBandiwdth(level, levels[i + 1])) {
+    //     maxLevelIndex = i;
+    //     break;
+    //   }
+    // }
+
+    console.log('getMaxLevelByMediaSize', {
+      width,
+      height,
+      maxLevelIndex,
+      levelWidth: levels[maxLevelIndex].width,
+      levelHeight: levels[maxLevelIndex].height
+    })
 
     return maxLevelIndex;
   }
